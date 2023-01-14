@@ -1,5 +1,6 @@
 const express = require("express");
 const find = require("local-devices");
+const getDevices = require("../functions/getDevices");
 const getHostname = require("../functions/getHostname");
 const scanner = require("../functions/scanner");
 const router = express.Router();
