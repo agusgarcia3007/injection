@@ -20,8 +20,6 @@ build/
 # Config files
 *.config.js
 
-# yarn lock files
-yarn.lock
 
 # package-lock.json files
 package-lock.json
