@@ -8,14 +8,14 @@ router.get("/devices", async (req, res) => {
   try {
     const devices = await find();
 
-    devices.map((device) => {
-      device.name = getHostname(device.ip) || "unknown";
+    devices.map(async (device) => {
+      device.name = await getHostname(device.ip);
     });
 
     res.send(devices);
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.status(400).send(error);
   }
 });
 
