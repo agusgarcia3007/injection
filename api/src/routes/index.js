@@ -1,9 +1,11 @@
 const express = require("express");
 const find = require("local-devices");
+const ip = require("ip");
+const dgram = require("dgram");
 const getHostname = require("../functions/getHostname");
 const getBroadcastAddress = require("../functions/getBroadcastAddress");
 const scanner = require("../functions/scanner");
-const dgram = require("dgram");
+const disconect = require("../functions/disconnect");
 const router = express.Router();
 
 router.get("/devices", async (req, res) => {
@@ -21,6 +23,11 @@ router.get("/devices", async (req, res) => {
   }
 });
 
+router.get("/ip", async (req, res) => {
+  const ipAddress = await ip.address();
+  res.send({ ipAddress });
+});
+
 router.get("/vuln", async (req, res) => {
   const ip = req.query.ip;
   const ports = req.query.ports;
@@ -36,6 +43,16 @@ router.get("/vuln", async (req, res) => {
   }
 });
 
+// not working yet
+router.get("/disconnect", (req, res) => {
+  try {
+    disconect(req, res);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// alerts (future feature)
 router.post("/alert", async (req, res) => {
   const message = req.body.message;
   try {

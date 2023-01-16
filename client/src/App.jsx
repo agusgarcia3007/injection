@@ -1,13 +1,16 @@
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { Router } from "./routes";
-import Devices from "./views/Devices";
+import store from "./store/store";
 
 const App = () => {
   return (
     <div className="p-5">
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      </Provider>
     </div>
   );
 };

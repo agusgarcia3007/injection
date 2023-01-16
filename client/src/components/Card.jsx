@@ -1,7 +1,15 @@
+import { useSelector } from "react-redux";
+
 const Card = ({ device }) => {
+  const myIp = useSelector((state) => state.myIp);
+
   return (
-    <div class="relative block rounded-xl border border-gray-100 p-8 shadow-md">
-      <span class="absolute right-4 top-4 rounded-full bg-green-100 px-3 py-1.5 text-xs font-medium text-green-600">
+    <div
+      className={`relative block h-full rounded-xl border ${
+        myIp == device.ip ? "border-green-600 border-2" : "border-gray-100"
+      } p-8 shadow-md`}
+    >
+      <span className="absolute right-4 top-4 rounded-full bg-green-100 px-1.5 py-1.5 text-xs font-medium text-green-600">
         <svg
           width="24px"
           height="24px"
@@ -11,13 +19,13 @@ const Card = ({ device }) => {
           <path
             fill="none"
             stroke="#212529"
-            stroke-width="2"
+            strokeWidth="2"
             d="M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M7,12 L11,15 L16,8"
           />
         </svg>
       </span>
 
-      <div class="mt-4 text-gray-500 sm:pr-8">
+      <div className="mt-4 text-gray-500 sm:pr-8">
         <svg
           width="20px"
           height="20px"
@@ -27,11 +35,19 @@ const Card = ({ device }) => {
           <path d="M17 6V5h-2V2H3v14h5v4h3.25H11a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6zm-5.75 14H3a2 2 0 0 1-2-2V2c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-5.75zM11 8v8h6V8h-6zm3 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
         </svg>
 
-        <h3 class="mt-4 text-xl font-bold text-gray-900">
-          {device.name === "?" ? "dispositivo no reconocido" : device.name}
+        <h3 className="mt-4 text-lg font-bold text-gray-900">
+          {device.name === "?" ? "unknown device" : device.name}
         </h3>
-        <p class="mt-2 hidden text-sm sm:block">{device.ip}</p>
-        <p class="mt-2 hidden text-sm sm:block">{device.mac}</p>
+        <p className="mt-2 text-sm sm:block">
+          <span className="font-bold">IP:</span> {device.ip}
+        </p>
+        <p className="mt-2 text-sm sm:block">
+          <span className="font-semibold">MAC:</span> {device.mac}
+        </p>
+
+        {myIp == device.ip && (
+          <h2 className="mt-4 font-semibold text-base">My device</h2>
+        )}
       </div>
     </div>
   );
