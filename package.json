@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "npx lerna run dev",
-    "bootstrap": "npx lerna bootstrap "
+    "bootstrap": "npx lerna bootstrap",
+    "clean": "npx lerna clean"
   },
   "repository": {
     "type": "git",
