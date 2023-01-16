@@ -4,6 +4,8 @@ node_modules/
 # Internal node_modules
 **/node_modules/
 
+.turbo
+
 # Build files
 dist/
 build/

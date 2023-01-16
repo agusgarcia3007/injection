@@ -1,0 +1,27 @@
+{
+  "name": "injection",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "npx lerna run dev",
+    "bootstrap": "npx lerna bootstrap "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agusgarcia3007/injection.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agusgarcia3007/injection/issues"
+  },
+  "homepage": "https://github.com/agusgarcia3007/injection#readme",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^6.4.1"
+  }
+}
