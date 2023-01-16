@@ -7,6 +7,9 @@
     "dev": {
       "inputs": ["packages/**"]
     },
+    "start": {
+      "inputs": ["packages/**"]
+    },
     "lint": {}
   }
 }
