@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 import { addDevices, addMyIp } from "../store/slices/devicesSlice";
 
 const Devices = () => {
-  const { devices } = useSelector((state) => state);
+  const { devices, myIp } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -26,8 +26,10 @@ const Devices = () => {
 
   const getMyIp = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/ip`);
-      dispatch(addMyIp(res.data.ipAddress));
+      if (!myIp) {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/ip`);
+        dispatch(addMyIp(res.data.ipAddress));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +63,7 @@ const Devices = () => {
       <div className="mt-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 ">
           {devices?.map((device) => (
-            <Link key={device.mac} to={device.mac}>
+            <Link key={device.mac} to={device.ip}>
               <Card device={device} />
             </Link>
           ))}

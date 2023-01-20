@@ -9,7 +9,7 @@ export const Router = () => {
       element: <Devices />,
     },
     {
-      path: "/:mac",
+      path: "/:ip",
       element: <Device />,
     },
   ];

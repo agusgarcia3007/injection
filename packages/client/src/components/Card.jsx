@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { getDeviceName } from "../helpers/getDeviceName";
 
 const Card = ({ device }) => {
   const myIp = useSelector((state) => state.myIp);
@@ -36,7 +37,7 @@ const Card = ({ device }) => {
         </svg>
 
         <h3 className="mt-4 text-lg font-bold text-gray-900">
-          {device.name === "?" ? "unknown device" : device.name}
+          {getDeviceName(device.name)}
         </h3>
         <p className="mt-2 text-sm sm:block">
           <span className="font-bold">IP:</span> {device.ip}

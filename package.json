@@ -8,8 +8,8 @@
   ],
   "private": true,
   "scripts": {
-    "start": "npx turbo run start",
-    "dev": "npx turbo run dev"
+    "start": "turbo run start --parallel",
+    "dev": "turbo run dev --parallel"
   },
   "repository": {
     "type": "git",

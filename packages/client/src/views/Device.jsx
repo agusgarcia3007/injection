@@ -1,10 +1,22 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { getDeviceName } from "../helpers/getDeviceName";
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 
 const Device = () => {
-  const { mac } = useParams();
+  const { ip } = useParams();
   const navigate = useNavigate();
+
+  const { devices } = useSelector((state) => state);
+
+  const [values, setValues] = useState({ min: 0, max: 65000 });
+
+  const device = devices.find((device) => device.ip === ip);
+
   return (
-    <div>
+    <div className="flex flex-col">
       <button onClick={() => navigate(-1)}>
         <svg
           width="24px"
@@ -21,7 +33,37 @@ const Device = () => {
           />
         </svg>
       </button>
-      <p> Device {mac}</p>
+
+      <main className="mt-5">
+        <div className="block rounded-xl border border-gray-800 bg-gray-900 p-8 shadow-xl">
+          <h3 className="mt-3 text-xl font-bold text-white">Device Info:</h3>
+
+          <p className="mt-4 text-sm text-gray-300">
+            Device Name: {getDeviceName(device?.name)}
+          </p>
+          <p className="mt-4 text-sm text-gray-300">IP: {device?.ip}</p>
+          <p className="mt-4 text-sm text-gray-300">
+            Mac Address: {device?.mac}
+          </p>
+        </div>
+      </main>
+
+      <section>
+        <h1 className="mt-5">Search for open ports in this device</h1>
+        <div className="mt-7">
+          <RangeSlider
+            min={0}
+            max={65000}
+            value={[values.min, values.max]}
+            onChange={(e) =>
+              setValues({
+                min: e.target.value[0],
+                max: e.target.value[1],
+              })
+            }
+          />
+        </div>
+      </section>
     </div>
   );
 };

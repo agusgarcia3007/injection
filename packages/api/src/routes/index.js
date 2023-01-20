@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/devices", async (req, res) => {
   try {
-    const devices = await find();
+    const devices = await find({ skipNameResolution: true });
 
     devices.map(async (device) => {
       device.name = await getHostname(device.ip);
@@ -24,7 +24,7 @@ router.get("/devices", async (req, res) => {
 });
 
 router.get("/ip", async (req, res) => {
-  const ipAddress = await ip.address();
+  const ipAddress = ip.address();
   res.send({ ipAddress });
 });
 
@@ -81,28 +81,6 @@ router.post("/alert", async (req, res) => {
     console.log(error);
     res.status(500).send(error);
   }
-});
-
-router.post("/alertone", (req, res) => {
-  const message = req.body.message;
-  const ip = req.body.ip;
-  if (!message || !ip) {
-    res.status(400).send("No message or IP provided");
-    return;
-  }
-
-  const client = dgram.createSocket("udp4");
-
-  client.send(message, 0, message.length, 3000, ip, (err) => {
-    if (err) {
-      console.log(`Error sending message to ${ip}: ${err}`);
-      res.status(500).send(`Error sending message to ${ip}`);
-    } else {
-      console.log(`Sent message to ${ip}`);
-      res.send(`Sent message to ${ip}`);
-    }
-    client.close();
-  });
 });
 
 module.exports = router;

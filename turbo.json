@@ -5,10 +5,10 @@
       "outputs": ["dist/**"]
     },
     "dev": {
-      "inputs": ["packages/**"]
+      "cache": false
     },
     "start": {
-      "inputs": ["packages/**"]
+      "cache": false
     },
     "lint": {}
   }
