@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import { addDevices, addMyIp } from "../store/slices/devicesSlice";
+import { getDevices, getMyIp } from "../helpers/fetchingFunctions";
 
 const Devices = () => {
   const { devices, myIp } = useSelector((state) => state);
@@ -12,32 +11,9 @@ const Devices = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const getDevices = async () => {
-    if (devices?.length === 0) setLoading(true);
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/devices`);
-      dispatch(addDevices(res.data));
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
-  const getMyIp = async () => {
-    try {
-      if (!myIp) {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/ip`);
-        dispatch(addMyIp(res.data.ipAddress));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    getDevices();
-    getMyIp();
+    getDevices(devices, setLoading, dispatch);
+    getMyIp(myIp, dispatch);
   }, []);
 
   if (loading)

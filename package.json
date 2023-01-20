@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "start": "turbo run start --parallel",
-    "dev": "turbo run dev --parallel"
+    "dev": "turbo run dev --parallel",
+    "test": "turbo run test --parallel"
   },
   "repository": {
     "type": "git",
