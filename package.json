@@ -8,9 +8,16 @@
   ],
   "private": true,
   "scripts": {
+    "build": "turbo run build --parallel",
+    "build:api": "turbo run build --filter=./packages/api",
+    "build:client": "turbo run build --filter=./packages/client",
     "start": "turbo run start --parallel",
+    "start:api": "yarn start --filter=./packages/api",
+    "start:client": "yarn start --filter=./packages/client",
     "dev": "turbo run dev --parallel",
-    "test": "turbo run test --parallel"
+    "test": "turbo run test",
+    "test:client": "turbo run test --filter=client",
+    "test:api": "turbo run test --filter=api"
   },
   "repository": {
     "type": "git",

@@ -6,7 +6,6 @@
     },
     "dev": {},
     "start": {
-      "dependsOn": ["build"],
       "cache": false
     },
     "test": {}

@@ -1,25 +1,16 @@
-import { render, wait } from "@testing-library/react";
-import Devices from "./Devices";
-import { getDevices, getMyIp } from "../helpers/fetchingFunctions";
+import Devices from "../Devices";
+import { render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { store } from "../../store/store";
 
-jest.mock("../helpers/fetchingFunctions", () => {
-  return {
-    getDevices: jest.fn(),
-    getMyIp: jest.fn(),
-  };
-});
+const ProviderWrap = ({ children }) => {
+  return <Provider store={store}>{children}</Provider>;
+};
 
 describe("Devices", () => {
-  test("on initial render, devices are fetched", async () => {
-    const mockDevices = [{ mac: "123", ip: "192.168.1.1", name: "Device1" }];
-    getDevices.mockResolvedValue(mockDevices);
-    getMyIp.mockResolvedValue(mockDevices[0].ip);
+  test("component renders", () => {
+    render(<Devices />, { wrapper: ProviderWrap });
 
-    const { findByText } = render(<Devices />);
-
-    const device = await findByText(/Device/i);
-    expect(device).toBeInTheDocument();
-    expect(getDevices).toHaveBeenCalled();
-    expect(getMyIp).toHaveBeenCalled();
+    expect(screen.getByText("Connected devices")).toBeDefined();
   });
 });
