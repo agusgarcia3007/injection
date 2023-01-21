@@ -4,12 +4,10 @@
     "build": {
       "outputs": ["dist/**"]
     },
-    "dev": {
-      "cache": false
-    },
+    "dev": {},
     "start": {
       "cache": false
     },
-    "lint": {}
+    "test": {}
   }
 }
