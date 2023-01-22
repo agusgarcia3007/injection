@@ -20,9 +20,5 @@ build/
 # IDE files
 *.vscode/
 
-# Config files
-*.config.js
-
-
 # package-lock.json files
 package-lock.json
