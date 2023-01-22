@@ -8,7 +8,6 @@
   ],
   "private": true,
   "scripts": {
-    "build": "turbo run build --parallel",
     "build:api": "turbo run build --filter=./packages/api",
     "build:client": "turbo run build --filter=./packages/client",
     "start:api": "yarn start --filter=./packages/api",
