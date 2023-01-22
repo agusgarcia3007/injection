@@ -38,11 +38,15 @@ const Devices = () => {
       </div>
       <div className="mt-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 ">
-          {devices?.map((device) => (
-            <Link key={device.mac} to={device.ip}>
-              <Card device={device} />
-            </Link>
-          ))}
+          {devices.length > 0 ? (
+            devices?.map((device) => (
+              <Link key={device.mac} to={device.ip}>
+                <Card device={device} />
+              </Link>
+            ))
+          ) : (
+            <p className="text-xl text-gray-700">No devices found</p>
+          )}
         </div>
       </div>
     </div>

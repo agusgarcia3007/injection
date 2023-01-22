@@ -22,3 +22,20 @@ export const getMyIp = async (myIp, dispatch) => {
     console.log(error);
   }
 };
+
+export const getVulnerabilities = async (ip, ports, setStatus) => {
+  setStatus("loading");
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/vuln?ip=${ip}&ports=${ports}`,
+      {
+        timeout: 20000,
+      }
+    );
+    setStatus("success");
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    setStatus("error");
+  }
+};

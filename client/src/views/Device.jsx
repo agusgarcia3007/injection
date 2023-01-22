@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { getVulnerabilities } from "../helpers/fetchingFunctions";
 import { getDeviceName } from "../helpers/getDeviceName";
-import RangeSlider from "react-range-slider-input";
-import "react-range-slider-input/dist/style.css";
+import ArrowSvg from "../components/ArrowSvg";
+import Table from "../components/Table";
 
 const Device = () => {
   const { ip } = useParams();
@@ -12,26 +14,41 @@ const Device = () => {
   const { devices } = useSelector((state) => state);
 
   const [values, setValues] = useState({ min: 0, max: 65000 });
+  const [ports, setPorts] = useState("0-65000");
+  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [status, setStatus] = useState("");
 
   const device = devices.find((device) => device.ip === ip);
+
+  const handleScan = async () => {
+    getVulnerabilities(ip, ports, setStatus)
+      .then(setVulnerabilities)
+      .catch((error) => setError(error.message));
+  };
+
+  useEffect(() => {
+    if (!device) {
+      navigate("/");
+    }
+  }, [device]);
+
+  useEffect(() => {
+    setPorts(`${values.min}-${values.max}`);
+  }, [values]);
+
+  useEffect(() => {
+    if (status === "error") {
+      const timer = setTimeout(() => {
+        setStatus("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   return (
     <div className="flex flex-col">
       <button onClick={() => navigate(-1)}>
-        <svg
-          width="24px"
-          height="24px"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M11.4939 20.5644C11.1821 20.8372 10.7083 20.8056 10.4356 20.4939L3.43557 12.4939C3.18814 12.2111 3.18814 11.7889 3.43557 11.5061L10.4356 3.50613C10.7083 3.1944 11.1822 3.16281 11.4939 3.43557C11.8056 3.70834 11.8372 4.18216 11.5644 4.49388L5.65283 11.25L20 11.25C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75L5.65283 12.75L11.5644 19.5061C11.8372 19.8179 11.8056 20.2917 11.4939 20.5644Z"
-            fill="#030D45"
-          />
-        </svg>
+        <ArrowSvg />
       </button>
 
       <main className="mt-5">
@@ -48,21 +65,43 @@ const Device = () => {
         </div>
       </main>
 
-      <section>
-        <h1 className="mt-5">Search for open ports in this device</h1>
-        <div className="mt-7">
-          <RangeSlider
-            min={0}
-            max={65000}
-            value={[values.min, values.max]}
-            onChange={(e) =>
-              setValues({
-                min: e.target.value[0],
-                max: e.target.value[1],
-              })
-            }
+      <section className="mx-3">
+        <h1 className="mt-5 text-center sm:text-left">
+          Search for open ports in this device
+        </h1>
+        <div className="mt-7 flex flex-col  justify-center sm:justify-start sm:flex-row items-center gap-5">
+          <input
+            type="number"
+            placeholder="min"
+            value={values.min}
+            onChange={(e) => setValues({ ...values, min: e.target.value })}
+            className="py-2 px-3 border rounded-lg w-full sm:w-auto"
           />
+          <p className="rotate-90 sm:rotate-180">
+            <ArrowSvg className="mx-auto sm:mx-0 rotate-180 sm:rotate-0" />
+          </p>
+          <input
+            type="number"
+            placeholder="max"
+            value={values.max}
+            onChange={(e) => setValues({ ...values, max: e.target.value })}
+            className="py-2 px-3 border rounded-lg w-full sm:w-auto"
+          />
+          <button
+            onClick={handleScan}
+            className="inline-flex gap-x-3 items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 "
+          >
+            {status === "loading" ? "Scanning..." : "Scan"}
+          </button>
+          {status === "error" ? (
+            <p className="text-red-500 text-center ">
+              Error looking for open ports. please try again or reduce the ports
+              range
+            </p>
+          ) : null}
         </div>
+
+        {vulnerabilities?.length > 0 ? <Table data={vulnerabilities} /> : null}
       </section>
     </div>
   );
