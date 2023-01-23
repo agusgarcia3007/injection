@@ -29,7 +29,7 @@ export const getVulnerabilities = async (ip, ports, setStatus) => {
     const res = await axios.get(
       `${import.meta.env.VITE_API_URL}/vuln?ip=${ip}&ports=${ports}`,
       {
-        timeout: 20000,
+        timeout: 25000,
       }
     );
     setStatus("success");

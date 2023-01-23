@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/devices", async (req, res) => {
   try {
-    const devices = await find({ skipNameResolution: true });
+    const devices = await find();
 
     devices.map(async (device) => {
       device.name = await getHostname(device.ip);
