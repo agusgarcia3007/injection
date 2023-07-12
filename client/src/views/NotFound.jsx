@@ -7,9 +7,11 @@ const NotFound = () => {
 
   const startTimer = () => {
     if (secondsLeft > 0) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setSecondsLeft(secondsLeft - 1);
       }, 1000);
+
+      return () => clearTimeout(timer);
     }
   };
 
