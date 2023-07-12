@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", router);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🎉`);
-});
+const clientUrl = "https://injection-three.vercel.app";
+const message = `Server running on port ${PORT} 🎉 \n[+] Interface: UP | ${clientUrl}`;
+
+app.listen(PORT, () => console.log(message));

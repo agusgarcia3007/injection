@@ -1,20 +1,21 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getVulnerabilities } from "../helpers/fetchingFunctions";
+import { getVulnerabilities } from "../api";
 import { getDeviceName } from "../helpers/getDeviceName";
 import ArrowSvg from "../components/ArrowSvg";
 import Table from "../components/Table";
+import Container from "../components/Container";
+import { useData } from "../store";
 
 const Device = () => {
   const { ip } = useParams();
   const navigate = useNavigate();
 
-  const { devices } = useSelector((state) => state);
+  const { devices } = useData();
 
-  const [values, setValues] = useState({ min: 0, max: 65000 });
-  const [ports, setPorts] = useState("0-65000");
+  const [values, setValues] = useState({ min: 0, max: 1000 });
+  const [ports, setPorts] = useState("0-1000");
   const [vulnerabilities, setVulnerabilities] = useState([]);
   const [status, setStatus] = useState("");
 
@@ -46,7 +47,7 @@ const Device = () => {
   }, [status]);
 
   return (
-    <div className="flex flex-col">
+    <Container col>
       <button onClick={() => navigate(-1)}>
         <ArrowSvg />
       </button>
@@ -103,7 +104,7 @@ const Device = () => {
 
         {vulnerabilities?.length > 0 ? <Table data={vulnerabilities} /> : null}
       </section>
-    </div>
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useRoutes } from "react-router-dom";
+import { useNavigate, useRoutes } from "react-router-dom";
 import Device from "./views/Device";
 import Devices from "./views/Devices";
 import NotFound from "./views/NotFound";

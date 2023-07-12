@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import { getDevices, getMyIp } from "../helpers/fetchingFunctions";
+import { getDevices, getMyIp } from "../api";
+import Container from "../components/Container";
+import { useData } from "../store";
 
 const Devices = () => {
-  const { devices, myIp } = useSelector((state) => state);
+  const { devices, myIp } = useData();
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -18,14 +20,16 @@ const Devices = () => {
 
   if (loading)
     return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <Spinner />
-        <p className="mt-8">Scanning your network</p>
+      <div className="w-screen h-screen text-center flex flex-col justify-around gap-y-10 items-center">
+        <div>
+          <Spinner />
+        </div>
+        <p className="text-center">Scanning your network</p>
       </div>
     );
 
   return (
-    <div>
+    <Container col>
       <div className="sm:flex sm:items-center ">
         <div className="sm:flex-auto">
           <h1 className="text-2xl font-semibold text-gray-900">
@@ -49,7 +53,7 @@ const Devices = () => {
           )}
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

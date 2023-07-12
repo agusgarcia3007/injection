@@ -1,14 +1,16 @@
-import { useSelector } from "react-redux";
 import { getDeviceName } from "../helpers/getDeviceName";
+import { classNames } from "../helpers/classNames";
+import { useData } from "../store";
 
 const Card = ({ device }) => {
-  const myIp = useSelector((state) => state.myIp);
+  const { myIp } = useData();
 
   return (
     <div
-      className={`relative block h-full rounded-xl border ${
+      className={classNames(
+        "relative block h-full rounded-xl border p-4 shadow-md hover:shadow-xl hover:-translate-y-2 transform transition-all duration-300",
         myIp == device.ip ? "border-green-600 border-2" : "border-gray-100"
-      } p-8 shadow-md`}
+      )}
     >
       <span className="absolute right-4 top-4 rounded-full bg-green-100 px-1.5 py-1.5 text-xs font-medium text-green-600">
         <svg

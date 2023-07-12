@@ -1,0 +1,13 @@
+{
+  "name": "injection",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node ./api/index.js && cd client && npm run dev",
+    "start-api": "node ./api/index.js",
+    "start-client": "cd client && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

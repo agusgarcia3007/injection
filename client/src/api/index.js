@@ -1,10 +1,10 @@
-import axios from "axios";
 import { addDevices, addMyIp } from "../store/slices/devicesSlice";
+import http from "../http";
 
 export const getDevices = async (devices, setLoading, dispatch) => {
   if (devices?.length === 0) setLoading(true);
   try {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/devices`);
+    const res = await http.get("/devices");
     dispatch(addDevices(res.data));
     setLoading(false);
   } catch (error) {
@@ -15,7 +15,7 @@ export const getDevices = async (devices, setLoading, dispatch) => {
 export const getMyIp = async (myIp, dispatch) => {
   try {
     if (!myIp) {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/ip`);
+      const res = await http.get("/ip");
       dispatch(addMyIp(res.data.ipAddress));
     }
   } catch (error) {
@@ -26,12 +26,7 @@ export const getMyIp = async (myIp, dispatch) => {
 export const getVulnerabilities = async (ip, ports, setStatus) => {
   setStatus("loading");
   try {
-    const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/vuln?ip=${ip}&ports=${ports}`,
-      {
-        timeout: 25000,
-      }
-    );
+    const res = await http.get(`/vuln?ip=${ip}&ports=${ports}`);
     setStatus("success");
     return res.data;
   } catch (error) {
