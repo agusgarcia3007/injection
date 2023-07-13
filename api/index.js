@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const chalk = require("chalk");
 const router = require("./src/routes");
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use("/api", router);
 
 const clientUrl = "https://injection-three.vercel.app";
-const message = `Server running on port ${PORT} 🎉 \n[+] Interface: UP | ${clientUrl}`;
+const plusSign = chalk.cyan("[+]");
+const message = `${plusSign} Server running on port ${PORT} 🎉 \n${plusSign} Interface: UP \n${plusSign} ${clientUrl}`;
 
 app.listen(PORT, () => console.log(message));
