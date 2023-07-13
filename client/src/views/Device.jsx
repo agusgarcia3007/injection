@@ -14,15 +14,14 @@ const Device = () => {
 
   const { devices } = useData();
 
-  const [values, setValues] = useState({ min: 0, max: 1000 });
-  const [ports, setPorts] = useState("0-1000");
-  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [vulnerabilities, setVulnerabilities] = useState({});
   const [status, setStatus] = useState("");
 
   const device = devices.find((device) => device.ip === ip);
 
   const handleScan = async () => {
-    getVulnerabilities(ip, ports, setStatus)
+    setVulnerabilities({});
+    getVulnerabilities(ip, setStatus)
       .then(setVulnerabilities)
       .catch((error) => setError(error.message));
   };
@@ -32,10 +31,6 @@ const Device = () => {
       navigate("/");
     }
   }, [device]);
-
-  useEffect(() => {
-    setPorts(`${values.min}-${values.max}`);
-  }, [values]);
 
   useEffect(() => {
     if (status === "error") {
@@ -52,7 +47,7 @@ const Device = () => {
         <ArrowSvg />
       </button>
 
-      <main className="mt-5">
+      <div className="mt-5">
         <div className="block rounded-xl border border-gray-800 bg-gray-900 p-8 shadow-xl">
           <h3 className="mt-3 text-xl font-bold text-white">Device Info:</h3>
 
@@ -64,30 +59,13 @@ const Device = () => {
             Mac Address: {device?.mac}
           </p>
         </div>
-      </main>
+      </div>
 
       <section className="mx-3">
         <h1 className="mt-5 text-center sm:text-left">
           Search for open ports in this device
         </h1>
         <div className="mt-7 flex flex-col  justify-center sm:justify-start sm:flex-row items-center gap-5">
-          <input
-            type="number"
-            placeholder="min"
-            value={values.min}
-            onChange={(e) => setValues({ ...values, min: e.target.value })}
-            className="py-2 px-3 border rounded-lg w-full sm:w-auto"
-          />
-          <p className="rotate-90 sm:rotate-180">
-            <ArrowSvg className="mx-auto sm:mx-0 rotate-180 sm:rotate-0" />
-          </p>
-          <input
-            type="number"
-            placeholder="max"
-            value={values.max}
-            onChange={(e) => setValues({ ...values, max: e.target.value })}
-            className="py-2 px-3 border rounded-lg w-full sm:w-auto"
-          />
           <button
             onClick={handleScan}
             disabled={status === "loading"}
@@ -103,7 +81,15 @@ const Device = () => {
           ) : null}
         </div>
 
-        {vulnerabilities?.length > 0 ? <Table data={vulnerabilities} /> : null}
+        {vulnerabilities?.ports !== [] &&
+        vulnerabilities.os !== "" &&
+        Object.keys(vulnerabilities).length > 0 ? (
+          <Table data={vulnerabilities} />
+        ) : status === "loading" ? null : (
+          <p className="text-center my-4">
+            No open ports found. Please try again
+          </p>
+        )}
       </section>
     </Container>
   );

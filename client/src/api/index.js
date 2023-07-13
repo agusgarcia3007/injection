@@ -23,10 +23,10 @@ export const getMyIp = async (myIp, dispatch) => {
   }
 };
 
-export const getVulnerabilities = async (ip, ports, setStatus) => {
+export const getVulnerabilities = async (ip, setStatus) => {
   setStatus("loading");
   try {
-    const res = await http.get(`/vuln?ip=${ip}&ports=${ports}`);
+    const res = await http.get(`/vuln?ip=${ip}`);
     setStatus("success");
     return res.data;
   } catch (error) {

@@ -3,7 +3,7 @@ const Evilscan = require("evilscan");
 function scanner(ip, ports) {
   const options = {
     target: ip,
-    port: ports ?? "0-65000",
+    port: ports ?? "0-1000",
     status: "O",
     banner: true,
   };
